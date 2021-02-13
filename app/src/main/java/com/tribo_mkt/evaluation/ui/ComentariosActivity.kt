@@ -1,13 +1,10 @@
-package com.tribo_mkt.evaluation
+package com.tribo_mkt.evaluation.ui
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,28 +15,28 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
-import com.tribo_mkt.evaluation.respostas.FotoResposta
-import com.squareup.picasso.Picasso
+import com.tribo_mkt.evaluation.R
+import com.tribo_mkt.evaluation.respostas.ComentarioResposta
 
-class FotosActivity : AppCompatActivity() {
+class ComentariosActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_fotos)
+        setContentView(R.layout.activity_comentarios)
 
-        val albumId = intent.extras!!.getString("albumId")!!
+        val postagemId = intent.extras!!.getString("postagemId")!!
         val usuarioNome = intent.extras!!.getString("usuarioNome")!!
 
-        supportActionBar!!.title = "Fotos de " + usuarioNome
+        supportActionBar!!.title = "Comentários de " + usuarioNome
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
         val stringRequest = StringRequest(
-            Request.Method.GET, "https://jsonplaceholder.typicode.com/photos?albumId=" + albumId,
+            Request.Method.GET, "https://jsonplaceholder.typicode.com/comments?postId=" + postagemId,
             Response.Listener<String> { response ->
-                val todasAsFotos = Gson().newBuilder().create().fromJson(response, Array<FotoResposta>::class.java).toList()
+                val todosComentarios = Gson().newBuilder().create().fromJson(response, Array<ComentarioResposta>::class.java).toList()
 
                 val lista = findViewById<RecyclerView>(R.id.lista)!!
-                val adapter = Adapter(this, todasAsFotos)
+                val adapter = Adapter(todosComentarios)
                 lista.layoutManager = LinearLayoutManager(this)
                 lista.adapter = adapter
                 findViewById<View>(R.id.loading)!!.visibility = View.GONE
@@ -63,12 +60,10 @@ class FotosActivity : AppCompatActivity() {
     }
 
     class Adapter(
-        val activity: Activity,
-        var items: List<FotoResposta>
+        var items: List<ComentarioResposta>
     ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.photo_view, parent, false))
+            return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.comment_view, parent, false))
         }
 
         override fun getItemCount(): Int {
@@ -77,21 +72,13 @@ class FotosActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val view = holder as ViewHolder
-            view.titulo.text = items[position].titulo
-            view.fundo.setOnClickListener {
-                val intent = Intent(activity, FotoDetalheActivity::class.java)
-                intent.putExtra("fotoUrl", items[position].url)
-                intent.putExtra("fotoNome", items[position].titulo)
-                activity.startActivity(intent)
-            }
-
-            Picasso.get().load(items[position].thumbnailUrl).into(view.thumb)
+            view.titulo.text = items[position].nome
+            view.comentario.text = items[position].conteudo
         }
 
         class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val fundo = itemView.findViewById<View>(R.id.fundo)!!
-            val thumb = itemView.findViewById<ImageView>(R.id.thumb)!!
             val titulo = itemView.findViewById<TextView>(R.id.titulo)!!
+            val comentario = itemView.findViewById<TextView>(R.id.comentario)!!
         }
     }
 }

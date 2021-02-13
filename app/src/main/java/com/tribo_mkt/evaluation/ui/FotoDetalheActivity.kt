@@ -1,4 +1,4 @@
-package com.tribo_mkt.evaluation
+package com.tribo_mkt.evaluation.ui
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
+import com.tribo_mkt.evaluation.R
 
 class FotoDetalheActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

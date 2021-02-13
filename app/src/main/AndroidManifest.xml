@@ -12,18 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.tribo_mkt.evaluation.InicioActivity">
+        <activity android:name="com.tribo_mkt.evaluation.ui.InicioActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.tribo_mkt.evaluation.AlbunsActivity"/>
-        <activity android:name="com.tribo_mkt.evaluation.FotosActivity"/>
-        <activity android:name="com.tribo_mkt.evaluation.FotoDetalheActivity"/>
-        <activity android:name="com.tribo_mkt.evaluation.PostagensActivity"/>
-        <activity android:name="com.tribo_mkt.evaluation.ComentariosActivity"/>
+        <activity android:name="com.tribo_mkt.evaluation.ui.AlbunsActivity"/>
+        <activity android:name="com.tribo_mkt.evaluation.ui.FotosActivity"/>
+        <activity android:name="com.tribo_mkt.evaluation.ui.FotoDetalheActivity"/>
+        <activity android:name="com.tribo_mkt.evaluation.ui.PostagensActivity"/>
+        <activity android:name="com.tribo_mkt.evaluation.ui.ComentariosActivity"/>
     </application>
 
 </manifest>

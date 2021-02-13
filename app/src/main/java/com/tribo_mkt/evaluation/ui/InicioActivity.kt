@@ -1,4 +1,4 @@
-package com.tribo_mkt.evaluation
+package com.tribo_mkt.evaluation.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -17,6 +17,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
+import com.tribo_mkt.evaluation.R
 import com.tribo_mkt.evaluation.respostas.UsuarioResposta
 import java.util.*
 

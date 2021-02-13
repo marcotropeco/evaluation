@@ -1,5 +1,7 @@
-package com.tribo_mkt.evaluation
+package com.tribo_mkt.evaluation.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -15,27 +17,28 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
-import com.tribo_mkt.evaluation.respostas.ComentarioResposta
+import com.tribo_mkt.evaluation.R
+import com.tribo_mkt.evaluation.respostas.AlbumResposta
 
-class ComentariosActivity : AppCompatActivity() {
+class AlbunsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_comentarios)
+        setContentView(R.layout.activity_albuns)
 
-        val postagemId = intent.extras!!.getString("postagemId")!!
+        val usuarioId = intent.extras!!.getString("usuarioId")!!
         val usuarioNome = intent.extras!!.getString("usuarioNome")!!
 
-        supportActionBar!!.title = "Comentários de " + usuarioNome
+        supportActionBar!!.title = "Albuns de " + usuarioNome
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
         val stringRequest = StringRequest(
-            Request.Method.GET, "https://jsonplaceholder.typicode.com/comments?postId=" + postagemId,
+            Request.Method.GET, "https://jsonplaceholder.typicode.com/albums?userId=" + usuarioId,
             Response.Listener<String> { response ->
-                val todosComentarios = Gson().newBuilder().create().fromJson(response, Array<ComentarioResposta>::class.java).toList()
+                val todosAlbuns = Gson().newBuilder().create().fromJson(response, Array<AlbumResposta>::class.java).toList()
 
                 val lista = findViewById<RecyclerView>(R.id.lista)!!
-                val adapter = Adapter(todosComentarios)
+                val adapter = Adapter(this, todosAlbuns, usuarioNome)
                 lista.layoutManager = LinearLayoutManager(this)
                 lista.adapter = adapter
                 findViewById<View>(R.id.loading)!!.visibility = View.GONE
@@ -59,10 +62,12 @@ class ComentariosActivity : AppCompatActivity() {
     }
 
     class Adapter(
-        var items: List<ComentarioResposta>
+        val activity: Activity,
+        var items: List<AlbumResposta>,
+        val usuarioNome: String
     ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.comment_view, parent, false))
+            return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.album_view, parent, false))
         }
 
         override fun getItemCount(): Int {
@@ -71,13 +76,18 @@ class ComentariosActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val view = holder as ViewHolder
-            view.titulo.text = items[position].nome
-            view.comentario.text = items[position].conteudo
+            view.album.text = items[position].titulo
+            view.fundo.setOnClickListener {
+                val intent = Intent(activity, FotosActivity::class.java)
+                intent.putExtra("albumId", items[position].id)
+                intent.putExtra("usuarioNome", usuarioNome)
+                activity.startActivity(intent)
+            }
         }
 
         class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val titulo = itemView.findViewById<TextView>(R.id.titulo)!!
-            val comentario = itemView.findViewById<TextView>(R.id.comentario)!!
+            val album = itemView.findViewById<TextView>(R.id.album)!!
+            val fundo = itemView.findViewById<View>(R.id.fundo)!!
         }
     }
 }
