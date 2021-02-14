@@ -18,7 +18,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
-import com.tribo_mkt.evaluation.respostas.FotoResposta
+import com.tribo_mkt.evaluation.model.FotoResposta
 import com.squareup.picasso.Picasso
 import com.tribo_mkt.evaluation.R
 

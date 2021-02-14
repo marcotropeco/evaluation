@@ -1,4 +1,4 @@
-package com.tribo_mkt.evaluation.respostas
+package com.tribo_mkt.evaluation.model
 
 import com.google.gson.annotations.SerializedName
 

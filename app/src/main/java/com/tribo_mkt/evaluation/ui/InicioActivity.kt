@@ -18,10 +18,16 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.tribo_mkt.evaluation.R
-import com.tribo_mkt.evaluation.respostas.UsuarioResposta
+import com.tribo_mkt.evaluation.model.UsuarioResposta
+import com.tribo_mkt.evaluation.viewmodel.UsuariosViewModel
 import java.util.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.lifecycle.Observer
 
 class InicioActivity : AppCompatActivity() {
+
+    private val viewModel: UsuariosViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inicio)
@@ -45,7 +51,22 @@ class InicioActivity : AppCompatActivity() {
                     Toast.makeText(this, "Algo errado aconteceu. Tente novamente mais tarde.", Toast.LENGTH_LONG).show()
                 })
 
-        Volley.newRequestQueue(this).add(stringRequest)
+        //Volley.newRequestQueue(this).add(stringRequest)
+
+        setUpItemEventList()
+    }
+
+    private fun setUpItemEventList() {
+        viewModel.usersData.observe(this, Observer {
+            it?.let { usuarios ->
+                val lista = findViewById<RecyclerView>(R.id.lista)!!
+                val adapter = Adapter(this, usuarios)
+                lista.layoutManager = LinearLayoutManager(this)
+                lista.adapter = adapter
+                findViewById<View>(R.id.loading)!!.visibility = View.GONE
+            }
+        })
+        viewModel.getUsuarios()
     }
 
     class Adapter(

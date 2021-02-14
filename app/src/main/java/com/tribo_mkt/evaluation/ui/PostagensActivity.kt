@@ -18,8 +18,8 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.tribo_mkt.evaluation.R
-import com.tribo_mkt.evaluation.respostas.ComentarioResposta
-import com.tribo_mkt.evaluation.respostas.PostagemResposta
+import com.tribo_mkt.evaluation.model.ComentarioResposta
+import com.tribo_mkt.evaluation.model.PostagemResposta
 
 class PostagensActivity : AppCompatActivity() {
 
