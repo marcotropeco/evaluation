@@ -1,4 +1,4 @@
-package com.tribo_mkt.evaluation.model
+package com.tribo_mkt.evaluation.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -9,8 +9,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
-import com.tribo_mkt.evaluation.ui.AlbunsActivity
-import com.tribo_mkt.evaluation.ui.PostagensActivity
+import com.tribo_mkt.evaluation.model.UsuarioResposta
 
 class UsuarioAdapter(
         val activity: Activity,
