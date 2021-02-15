@@ -1,4 +1,4 @@
-package com.tribo_mkt.evaluation.ui
+package com.tribo_mkt.evaluation.ui.comentarios
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,4 +1,4 @@
-package com.tribo_mkt.evaluation.repository
+package com.tribo_mkt.evaluation.repository.fotos
 
 import com.tribo_mkt.evaluation.model.FotoResposta
 import com.tribo_mkt.evaluation.network.RetrofitBuilder

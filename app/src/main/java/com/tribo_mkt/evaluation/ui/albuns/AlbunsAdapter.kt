@@ -1,4 +1,4 @@
-package com.tribo_mkt.evaluation.ui
+package com.tribo_mkt.evaluation.ui.albuns
 
 import android.app.Activity
 import android.content.Intent
@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
 import com.tribo_mkt.evaluation.model.AlbumResposta
+import com.tribo_mkt.evaluation.ui.fotos.FotosActivity
 
 class AlbunsAdapter(
         val activity: Activity,

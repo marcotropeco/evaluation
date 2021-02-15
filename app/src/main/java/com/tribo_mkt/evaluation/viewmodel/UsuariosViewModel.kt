@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tribo_mkt.evaluation.model.UsuarioResposta
-import com.tribo_mkt.evaluation.repository.UsuariosRepository
+import com.tribo_mkt.evaluation.repository.usuarios.UsuariosRepository
 import kotlinx.coroutines.launch
 
 class UsuariosViewModel(private val usuariosRepository: UsuariosRepository) : ViewModel() {

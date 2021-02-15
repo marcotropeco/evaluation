@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tribo_mkt.evaluation.model.ComentarioResposta
-import com.tribo_mkt.evaluation.repository.ComentariosRepository
+import com.tribo_mkt.evaluation.repository.comentarios.ComentariosRepository
 import kotlinx.coroutines.launch
 
 class ComentariosViewModel(private val comentariosRepository: ComentariosRepository) : ViewModel() {

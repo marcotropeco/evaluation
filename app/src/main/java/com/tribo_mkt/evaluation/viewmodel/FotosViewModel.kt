@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tribo_mkt.evaluation.model.FotoResposta
-import com.tribo_mkt.evaluation.repository.FotosRepository
+import com.tribo_mkt.evaluation.repository.fotos.FotosRepository
 import kotlinx.coroutines.launch
 
 class FotosViewModel(private val fotosRepository: FotosRepository) : ViewModel() {

@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tribo_mkt.evaluation.model.AlbumResposta
-import com.tribo_mkt.evaluation.repository.AlbunsRepository
+import com.tribo_mkt.evaluation.repository.albuns.AlbunsRepository
 import kotlinx.coroutines.launch
 
 class AlbunsViewModel(private val albunsRepository: AlbunsRepository) : ViewModel() {

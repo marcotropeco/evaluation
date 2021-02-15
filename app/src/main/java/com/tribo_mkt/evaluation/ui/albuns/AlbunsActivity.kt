@@ -1,4 +1,4 @@
-package com.tribo_mkt.evaluation.ui
+package com.tribo_mkt.evaluation.ui.albuns
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -9,37 +9,38 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
-import com.tribo_mkt.evaluation.viewmodel.ComentariosViewModel
+import com.tribo_mkt.evaluation.viewmodel.AlbunsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ComentariosActivity : AppCompatActivity() {
+class AlbunsActivity : AppCompatActivity() {
 
-    private val comentariosViewModel: ComentariosViewModel by viewModel()
+    private val viewModel: AlbunsViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_comentarios)
+        setContentView(R.layout.activity_albuns)
 
-        val postagemId = intent.extras!!.getString("postagemId")!!
+        val usuarioId = intent.extras!!.getString("usuarioId")!!
         val usuarioNome = intent.extras!!.getString("usuarioNome")!!
 
-        supportActionBar!!.title = getString(R.string.message_comment_prefix) + usuarioNome
+        supportActionBar!!.title = getString(R.string.message_album_prefix) + usuarioNome
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-        setUpComentsPostList(postagemId)
+        setUpAlbunsUserList(usuarioId, usuarioNome)
     }
 
-    private fun setUpComentsPostList(postId: String) {
-        comentariosViewModel.comentariosPostData.observe(this, Observer {
-            it?.let { comments ->
-                val todosComentarios = comments.toList()
+    private fun setUpAlbunsUserList(userId: String, userName: String) {
+        viewModel.albunsData.observe(this, Observer {
+            it?.let { todosAlbuns ->
+                val albunsList = todosAlbuns.toList()
                 val lista = findViewById<RecyclerView>(R.id.lista)!!
-                val adapter = ComentariosAdapter(todosComentarios)
+                val adapter = AlbunsAdapter(this, albunsList, userName)
                 lista.layoutManager = LinearLayoutManager(this)
                 lista.adapter = adapter
                 findViewById<View>(R.id.loading)!!.visibility = View.GONE
             }
         })
-        comentariosViewModel.error.observe(this, Observer {
+        viewModel.error.observe(this, Observer {
             it?.let { errors ->
                 if (errors) {
                     findViewById<View>(R.id.loading)!!.visibility = View.GONE
@@ -47,7 +48,7 @@ class ComentariosActivity : AppCompatActivity() {
                 }
             }
         })
-        comentariosViewModel.getCommentsPerPost(postId.toInt())
+        viewModel.getAlbunsPerUser(userId.toInt())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

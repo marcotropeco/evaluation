@@ -1,26 +1,23 @@
-package com.tribo_mkt.evaluation.ui
+package com.tribo_mkt.evaluation.ui.postagens
 
 import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import com.tribo_mkt.evaluation.R
-import com.tribo_mkt.evaluation.model.FotoResposta
-import com.tribo_mkt.evaluation.model.UsuarioResposta
+import com.tribo_mkt.evaluation.model.PostagemResposta
+import com.tribo_mkt.evaluation.ui.comentarios.ComentariosActivity
 
-class FotosAdapter(
+class PostagensAdapter(
         val activity: Activity,
-        var items: List<FotoResposta>
+        var items: List<PostagemResposta>,
+        var usuarioNome: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.photo_view, parent, false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.post_view, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -31,18 +28,20 @@ class FotosAdapter(
         val view = holder as ViewHolder
         view.titulo.text = items[position].titulo
         view.fundo.setOnClickListener {
-            val intent = Intent(activity, FotoDetalheActivity::class.java)
-            intent.putExtra("fotoUrl", items[position].url)
-            intent.putExtra("fotoNome", items[position].titulo)
+            val intent = Intent(activity, ComentariosActivity::class.java)
+            intent.putExtra("postagemId", items[position].id)
+            intent.putExtra("usuarioNome", usuarioNome)
             activity.startActivity(intent)
         }
-
-        Picasso.get().load(items[position].thumbnailUrl).into(view.thumb)
+        view.comentarios.text = activity.getString(R.string.message_num_comments_prefix) + items[position].comentarios.toString()
+        if (items[position].comentarios == null) {
+            view.comentarios.visibility = View.GONE
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val fundo = itemView.findViewById<View>(R.id.fundo)!!
-        val thumb = itemView.findViewById<ImageView>(R.id.thumb)!!
         val titulo = itemView.findViewById<TextView>(R.id.titulo)!!
+        val comentarios = itemView.findViewById<TextView>(R.id.comentarios)!!
     }
 }

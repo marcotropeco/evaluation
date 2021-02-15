@@ -1,4 +1,4 @@
-package com.tribo_mkt.evaluation.repository
+package com.tribo_mkt.evaluation.repository.albuns
 
 import com.tribo_mkt.evaluation.model.AlbumResposta
 

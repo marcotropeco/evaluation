@@ -1,4 +1,4 @@
-package com.tribo_mkt.evaluation.ui
+package com.tribo_mkt.evaluation.ui.postagens
 
 import android.os.Bundle
 import android.view.MenuItem
