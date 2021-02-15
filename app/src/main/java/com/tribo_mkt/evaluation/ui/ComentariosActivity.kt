@@ -1,24 +1,20 @@
 package com.tribo_mkt.evaluation.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.google.gson.Gson
 import com.tribo_mkt.evaluation.R
-import com.tribo_mkt.evaluation.model.ComentarioResposta
+import com.tribo_mkt.evaluation.viewmodel.ComentariosViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ComentariosActivity : AppCompatActivity() {
+
+    private val comentariosViewModel: ComentariosViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comentarios)
@@ -26,27 +22,32 @@ class ComentariosActivity : AppCompatActivity() {
         val postagemId = intent.extras!!.getString("postagemId")!!
         val usuarioNome = intent.extras!!.getString("usuarioNome")!!
 
-        supportActionBar!!.title = "Comentários de " + usuarioNome
+        supportActionBar!!.title = getString(R.string.message_comment_prefix) + usuarioNome
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
+        setUpComentsPostList(postagemId)
+    }
 
-        val stringRequest = StringRequest(
-            Request.Method.GET, "https://jsonplaceholder.typicode.com/comments?postId=" + postagemId,
-            Response.Listener<String> { response ->
-                val todosComentarios = Gson().newBuilder().create().fromJson(response, Array<ComentarioResposta>::class.java).toList()
-
+    private fun setUpComentsPostList(postId: String) {
+        comentariosViewModel.comentariosPostData.observe(this, Observer {
+            it?.let { comments ->
+                val todosComentarios = comments.toList()
                 val lista = findViewById<RecyclerView>(R.id.lista)!!
-                val adapter = Adapter(todosComentarios)
+                val adapter = ComentariosAdapter(todosComentarios)
                 lista.layoutManager = LinearLayoutManager(this)
                 lista.adapter = adapter
                 findViewById<View>(R.id.loading)!!.visibility = View.GONE
-            },
-            Response.ErrorListener {
-                findViewById<View>(R.id.loading)!!.visibility = View.GONE
-                Toast.makeText(this, "Algo errado aconteceu. Tente novamente mais tarde.", Toast.LENGTH_LONG).show()
-            })
-
-        Volley.newRequestQueue(this).add(stringRequest)
+            }
+        })
+        comentariosViewModel.error.observe(this, Observer {
+            it?.let { errors ->
+                if (errors) {
+                    findViewById<View>(R.id.loading)!!.visibility = View.GONE
+                    Toast.makeText(this, getString(R.string.message_error_load), Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+        comentariosViewModel.getCommentsPerPost(postId.toInt())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -56,29 +57,6 @@ class ComentariosActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    class Adapter(
-        var items: List<ComentarioResposta>
-    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.comment_view, parent, false))
-        }
-
-        override fun getItemCount(): Int {
-            return items.size
-        }
-
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            val view = holder as ViewHolder
-            view.titulo.text = items[position].nome
-            view.comentario.text = items[position].conteudo
-        }
-
-        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val titulo = itemView.findViewById<TextView>(R.id.titulo)!!
-            val comentario = itemView.findViewById<TextView>(R.id.comentario)!!
         }
     }
 }

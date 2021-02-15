@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Evaluation</string>
+    <string name="message_error_load">Algo errado aconteceu. Tente novamente mais tarde.</string>
+    <string name="message_comment_prefix">"Comentários de "</string>
+    <string name="message_album_prefix">"Albuns de "</string>
+    <string name="message_photo_detail_prefix">Foto Detalhe</string>
+    <string name="message_photo_prefix">"Fotos de "</string>
+    <string name="message_users_prefix">Usuários</string>
+    <string name="message_posts_prefix">"Postagens de "</string>
+    <string name="message_num_comments_prefix">"Número de comentários: "</string>
 </resources>

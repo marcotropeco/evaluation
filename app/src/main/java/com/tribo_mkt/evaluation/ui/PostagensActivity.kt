@@ -33,10 +33,9 @@ class PostagensActivity : AppCompatActivity() {
         val usuarioId = intent.extras!!.getString("usuarioId")!!
         usuarioNome = intent.extras!!.getString("usuarioNome")!!
 
-        supportActionBar!!.title = "Postagens de " + usuarioNome
+        supportActionBar!!.title = getString(R.string.message_posts_prefix) + usuarioNome
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-
         setUpPostsUserList(usuarioId)
         setUpComentsUserList(usuarioId)
     }
@@ -104,7 +103,7 @@ class PostagensActivity : AppCompatActivity() {
                 findViewById<View>(R.id.loading)!!.visibility = View.GONE
             } else {
                 findViewById<View>(R.id.loading)!!.visibility = View.GONE
-                Toast.makeText(this, "Algo errado aconteceu. Tente novamente mais tarde.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.message_error_load), Toast.LENGTH_LONG).show()
             }
         }
     }

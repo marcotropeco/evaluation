@@ -22,10 +22,9 @@ class FotosActivity : AppCompatActivity() {
         val albumId = intent.extras!!.getString("albumId")!!
         val usuarioNome = intent.extras!!.getString("usuarioNome")!!
 
-        supportActionBar!!.title = "Fotos de " + usuarioNome
+        supportActionBar!!.title = getString(R.string.message_photo_prefix) + usuarioNome
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-
         setUpPhotosList(albumId)
     }
 
@@ -44,7 +43,7 @@ class FotosActivity : AppCompatActivity() {
             it?.let { errors ->
                 if (errors) {
                     findViewById<View>(R.id.loading)!!.visibility = View.GONE
-                    Toast.makeText(this, "Algo errado aconteceu. Tente novamente mais tarde.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.message_error_load), Toast.LENGTH_LONG).show()
                 }
             }
         })

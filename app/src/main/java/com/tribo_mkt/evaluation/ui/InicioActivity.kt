@@ -18,8 +18,7 @@ class InicioActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inicio)
-
-        supportActionBar!!.title = "Usuários"
+        supportActionBar!!.title = getString(R.string.message_users_prefix)
         setUpUsersList()
     }
 
@@ -39,7 +38,7 @@ class InicioActivity : AppCompatActivity() {
             it?.let { errors ->
                 if (errors) {
                     findViewById<View>(R.id.loading)!!.visibility = View.GONE
-                    Toast.makeText(this, "Algo errado aconteceu. Tente novamente mais tarde.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.message_error_load), Toast.LENGTH_LONG).show()
                 }
             }
         })

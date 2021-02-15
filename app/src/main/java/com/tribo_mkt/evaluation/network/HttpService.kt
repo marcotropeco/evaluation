@@ -15,6 +15,9 @@ interface HttpService {
     @GET("comments")
     suspend fun getComentariosUsuario(@Query("userId") userId: Int): List<ComentarioResposta>
 
+    @GET("comments")
+    suspend fun getComentariosPostagens(@Query("postId") postId: Int): List<ComentarioResposta>
+
     @GET("posts")
     suspend fun getPostagensUsuario(@Query("userId") userId: Int): List<PostagemResposta>
 

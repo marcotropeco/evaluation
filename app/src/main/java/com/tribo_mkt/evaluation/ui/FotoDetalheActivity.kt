@@ -16,7 +16,7 @@ class FotoDetalheActivity : AppCompatActivity() {
         val fotoUrl = intent.extras!!.getString("fotoUrl")!!
         val fotoNome = intent.extras!!.getString("fotoNome")!!
 
-        supportActionBar!!.title = "Foto Detalhe"
+        supportActionBar!!.title = getString(R.string.message_photo_detail_prefix)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 

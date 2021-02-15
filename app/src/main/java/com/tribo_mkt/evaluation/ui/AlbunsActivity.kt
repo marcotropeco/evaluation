@@ -23,14 +23,13 @@ class AlbunsActivity : AppCompatActivity() {
         val usuarioId = intent.extras!!.getString("usuarioId")!!
         val usuarioNome = intent.extras!!.getString("usuarioNome")!!
 
-        supportActionBar!!.title = "Albuns de " + usuarioNome
+        supportActionBar!!.title = getString(R.string.message_album_prefix) + usuarioNome
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         setUpAlbunsUserList(usuarioId, usuarioNome)
     }
 
     private fun setUpAlbunsUserList(userId: String, userName: String) {
-
         viewModel.albunsData.observe(this, Observer {
             it?.let { todosAlbuns ->
                 val albunsList = todosAlbuns.toList()
@@ -45,14 +44,12 @@ class AlbunsActivity : AppCompatActivity() {
             it?.let { errors ->
                 if (errors) {
                     findViewById<View>(R.id.loading)!!.visibility = View.GONE
-                    Toast.makeText(this, "Algo errado aconteceu. Tente novamente mais tarde.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.message_error_load), Toast.LENGTH_LONG).show()
                 }
             }
         })
-
         viewModel.getAlbunsPerUser(userId.toInt())
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

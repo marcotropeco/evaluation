@@ -2,6 +2,7 @@ package com.tribo_mkt.evaluation.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +33,7 @@ class PostagensAdapter(
             intent.putExtra("usuarioNome", usuarioNome)
             activity.startActivity(intent)
         }
-        view.comentarios.text = "Número de comentários: " + items[position].comentarios.toString()
+        view.comentarios.text = activity.getString(R.string.message_num_comments_prefix) + items[position].comentarios.toString()
         if (items[position].comentarios == null) {
             view.comentarios.visibility = View.GONE
         }
