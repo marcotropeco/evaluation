@@ -55,7 +55,7 @@ class PostagensActivity : AppCompatActivity() {
                 }
             }
         })
-        comentariosViewModel.getAlbunsPerUser(userId.toInt())
+        comentariosViewModel.getCommentsPerUser(userId.toInt())
     }
 
     private fun setUpPostsUserList(userId: String) {
@@ -72,7 +72,7 @@ class PostagensActivity : AppCompatActivity() {
                 }
             }
         })
-        postagensViewModel.getPostagensPerUser(userId.toInt())
+        postagensViewModel.getPostsPerUser(userId.toInt())
     }
 
     fun finalizar(postagens: Resposta?, comentarios: Resposta?) {

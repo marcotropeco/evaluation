@@ -12,7 +12,7 @@ class ComentariosViewModel(private val comentariosRepository: ComentariosReposit
     val comentariosData = MutableLiveData<List<ComentarioResposta>>()
     val error = MutableLiveData<Boolean>()
 
-    fun getAlbunsPerUser(userId : Int) {
+    fun getCommentsPerUser(userId : Int) {
         viewModelScope.launch {
             try {
                 error.value = false

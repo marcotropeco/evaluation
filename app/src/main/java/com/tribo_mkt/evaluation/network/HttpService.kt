@@ -1,9 +1,6 @@
 package com.tribo_mkt.evaluation.network
 
-import com.tribo_mkt.evaluation.model.AlbumResposta
-import com.tribo_mkt.evaluation.model.ComentarioResposta
-import com.tribo_mkt.evaluation.model.PostagemResposta
-import com.tribo_mkt.evaluation.model.UsuarioResposta
+import com.tribo_mkt.evaluation.model.*
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -21,4 +18,6 @@ interface HttpService {
     @GET("posts")
     suspend fun getPostagensUsuario(@Query("userId") userId: Int): List<PostagemResposta>
 
+    @GET("photos")
+    suspend fun getFotosAlbuns(@Query("albumId") albumId: Int): List<FotoResposta>
 }

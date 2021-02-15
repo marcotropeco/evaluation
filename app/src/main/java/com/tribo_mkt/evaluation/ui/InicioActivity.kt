@@ -43,6 +43,6 @@ class InicioActivity : AppCompatActivity() {
                 }
             }
         })
-        viewModel.getUsuarios()
+        viewModel.getUsers()
     }
 }

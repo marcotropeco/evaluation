@@ -12,7 +12,7 @@ class PostagensViewModel(private val postagensRepository: PostagensRepository) :
     val postagemData = MutableLiveData<List<PostagemResposta>>()
     val error = MutableLiveData<Boolean>()
 
-    fun getPostagensPerUser(userId : Int) {
+    fun getPostsPerUser(userId : Int) {
         viewModelScope.launch {
             try {
                 error.value = false

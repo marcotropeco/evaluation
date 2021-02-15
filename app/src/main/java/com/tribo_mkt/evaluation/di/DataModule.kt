@@ -10,4 +10,5 @@ val dataModule = module {
     factory<AlbunsRepository> { AlbunsRepositoryImpl(get()) }
     factory<ComentariosRepository> { ComentariosRepositoryImpl(get()) }
     factory<PostagensRepository> { PostagensRepositoryImpl(get()) }
+    factory<FotosRepository> { FotosRepositoryImpl(get()) }
 }

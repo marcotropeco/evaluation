@@ -3,20 +3,20 @@ package com.tribo_mkt.evaluation.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tribo_mkt.evaluation.model.UsuarioResposta
-import com.tribo_mkt.evaluation.repository.UsuariosRepository
+import com.tribo_mkt.evaluation.model.FotoResposta
+import com.tribo_mkt.evaluation.repository.FotosRepository
 import kotlinx.coroutines.launch
 
-class UsuariosViewModel(private val usuariosRepository: UsuariosRepository) : ViewModel() {
+class FotosViewModel(private val fotosRepository: FotosRepository) : ViewModel() {
 
-    val usersData = MutableLiveData<List<UsuarioResposta>>()
+    val fotosData = MutableLiveData<List<FotoResposta>>()
     val error = MutableLiveData<Boolean>()
 
-    fun getUsers() {
+    fun getPhotosPerAlbum(albumId : Int) {
         viewModelScope.launch {
             try {
                 error.value = false
-                usersData.value = usuariosRepository.get()
+                fotosData.value = fotosRepository.getPerAlbum(albumId)
             } catch (e: Exception) {
                 error.value = true
             }
