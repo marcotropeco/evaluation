@@ -1,27 +1,24 @@
 package com.tribo_mkt.evaluation.ui
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.google.gson.Gson
 import com.tribo_mkt.evaluation.R
 import com.tribo_mkt.evaluation.model.ComentarioResposta
 import com.tribo_mkt.evaluation.model.PostagemResposta
+import com.tribo_mkt.evaluation.viewmodel.ComentariosViewModel
+import com.tribo_mkt.evaluation.viewmodel.PostagensViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PostagensActivity : AppCompatActivity() {
+
+    private val comentariosViewModel: ComentariosViewModel by viewModel()
+    private val postagensViewModel: PostagensViewModel by viewModel()
 
     var postagens: Resposta? = null
     var comentarios: Resposta? = null
@@ -40,44 +37,42 @@ class PostagensActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
-        val queue = Volley.newRequestQueue(this)
+        setUpPostsUserList(usuarioId)
+        setUpComentsUserList(usuarioId)
+    }
 
-        val postsStringRequest = StringRequest(
-            Request.Method.GET, "https://jsonplaceholder.typicode.com/posts?userId=" + usuarioId,
-            Response.Listener<String> { response ->
-                finalizar(
-                    Resposta(
-                        Gson().newBuilder().create().fromJson(response, Array<PostagemResposta>::class.java).toList()
-                    ),
-                    null
-                )
-            },
-            Response.ErrorListener {
-                finalizar(
-                    null,
-                    null
-                )
-            })
+    private fun setUpComentsUserList(userId: String) {
+        comentariosViewModel.comentariosData.observe(this, Observer {
+            it?.let { comments ->
+                val commentsList = comments.toList()
+                finalizar(null, Resposta(commentsList))
+            }
+        })
+        comentariosViewModel.error.observe(this, Observer {
+            it?.let { errors ->
+                if (errors) {
+                    finalizar(null, null)
+                }
+            }
+        })
+        comentariosViewModel.getAlbunsPerUser(userId.toInt())
+    }
 
-        val comentariosStringRequest = StringRequest(
-            Request.Method.GET, "https://jsonplaceholder.typicode.com/comments?userId=" + usuarioId,
-            Response.Listener<String> { response ->
-                finalizar(
-                    null,
-                    Resposta(
-                        Gson().newBuilder().create().fromJson(response, Array<ComentarioResposta>::class.java).toList()
-                    )
-                )
-            },
-            Response.ErrorListener {
-                finalizar(
-                    null,
-                    null
-                )
-            })
-
-        queue.add(postsStringRequest)
-        queue.add(comentariosStringRequest)
+    private fun setUpPostsUserList(userId: String) {
+        postagensViewModel.postagemData.observe(this, Observer {
+            it?.let { posts ->
+                val postsList = posts.toList()
+                finalizar(Resposta(postsList), null)
+            }
+        })
+        postagensViewModel.error.observe(this, Observer {
+            it?.let { errors ->
+                if (errors) {
+                    finalizar(null, null)
+                }
+            }
+        })
+        postagensViewModel.getPostagensPerUser(userId.toInt())
     }
 
     fun finalizar(postagens: Resposta?, comentarios: Resposta?) {
@@ -103,7 +98,7 @@ class PostagensActivity : AppCompatActivity() {
                 }
 
                 val lista = findViewById<RecyclerView>(R.id.lista)!!
-                val adapter = Adapter(this, postagensLista, usuarioNome)
+                val adapter = PostagensAdapter(this, postagensLista, usuarioNome)
                 lista.layoutManager = LinearLayoutManager(this)
                 lista.adapter = adapter
                 findViewById<View>(R.id.loading)!!.visibility = View.GONE
@@ -121,41 +116,6 @@ class PostagensActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    class Adapter(
-        val activity: Activity,
-        var items: List<PostagemResposta>,
-        var usuarioNome: String
-    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.post_view, parent, false))
-        }
-
-        override fun getItemCount(): Int {
-            return items.size
-        }
-
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            val view = holder as ViewHolder
-            view.titulo.text = items[position].titulo
-            view.fundo.setOnClickListener {
-                val intent = Intent(activity, ComentariosActivity::class.java)
-                intent.putExtra("postagemId", items[position].id)
-                intent.putExtra("usuarioNome", usuarioNome)
-                activity.startActivity(intent)
-            }
-            view.comentarios.text = "Número de comentários: " + items[position].comentarios.toString()
-            if (items[position].comentarios == null) {
-                view.comentarios.visibility = View.GONE
-            }
-        }
-
-        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val fundo = itemView.findViewById<View>(R.id.fundo)!!
-            val titulo = itemView.findViewById<TextView>(R.id.titulo)!!
-            val comentarios = itemView.findViewById<TextView>(R.id.comentarios)!!
         }
     }
 }
