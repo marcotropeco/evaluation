@@ -1,6 +1,5 @@
 package com.tribo_mkt.evaluation.data
 
-import com.tribo_mkt.evaluation.model.UsuarioResposta
 import com.tribo_mkt.evaluation.network.RetrofitBuilder
 import com.tribo_mkt.evaluation.repository.usuarios.UsuariosRepositoryImpl
 import com.tribo_mkt.evaluation.testUtil.TestDataUsers.USERS_LIST
@@ -57,7 +56,7 @@ class UsuariosRepositoryTest {
         var message: String? = null
         try {
             UsuariosRepositoryImpl(apiHttpService).get()
-        } catch (e: java.lang.Exception) {
+        } catch (e: Exception) {
             message = e.message
         }
         assertEquals(message, "No network")
