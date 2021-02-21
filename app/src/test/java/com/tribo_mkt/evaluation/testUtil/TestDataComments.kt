@@ -4,6 +4,8 @@ import com.tribo_mkt.evaluation.model.ComentarioResposta
 
 object TestDataComments {
 
+    val USER_ID = 1
+
     val COMMENT = ComentarioResposta(
         postagemId = "1",
         id = "1",

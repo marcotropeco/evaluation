@@ -42,16 +42,6 @@ class ComentariosRepositoryTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `test success - getComentariosUsuario(AlbunsRepositoryImpl)`() = runBlockingTest {
-        coEvery { apiHttpService.apiService.getComentariosUsuario(USER.id.toInt()) } returns COMMENT_LIST
-        val list = ComentariosRepositoryImpl(apiHttpService).getPerUser(USER.id.toInt())
-        assertTrue(list.size == 2)
-        assertEquals(list[0].nome, COMMENT_LIST[0].nome)
-        assertEquals(list[0].postagemId, COMMENT_LIST[0].postagemId)
-    }
-
-    @ExperimentalCoroutinesApi
-    @Test
     fun `test success - getComentariosPostagens(AlbunsRepositoryImpl)`() = runBlockingTest {
         coEvery { apiHttpService.apiService.getComentariosPostagens(POSTS.id.toInt()) } returns COMMENT_LIST
         val list = ComentariosRepositoryImpl(apiHttpService).getPerPost(POSTS.id.toInt())
@@ -62,23 +52,23 @@ class ComentariosRepositoryTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `test failed - getComentariosUsuario(AlbunsRepositoryImpl)`() = runBlockingTest {
-        coEvery { apiHttpService.apiService.getComentariosUsuario(USER.id.toInt()) } returns emptyList()
-        val list = ComentariosRepositoryImpl(apiHttpService).getPerUser(USER.id.toInt())
+    fun `test failed - getComentariosPostagens(AlbunsRepositoryImpl)`() = runBlockingTest {
+        coEvery { apiHttpService.apiService.getComentariosPostagens(POSTS.id.toInt()) } returns emptyList()
+        val list = ComentariosRepositoryImpl(apiHttpService).getPerPost(POSTS.id.toInt())
         assertFalse(list.size > 0)
     }
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `test failed - getComentariosUsuario(AlbunsRepositoryImpl) exception`() = runBlockingTest {
-        coEvery { apiHttpService.apiService.getComentariosUsuario(USER.id.toInt()) } coAnswers {
+    fun `test failed - getComentariosPostagens(AlbunsRepositoryImpl) exception`() = runBlockingTest {
+        coEvery { apiHttpService.apiService.getComentariosPostagens(POSTS.id.toInt()) } coAnswers {
             throw Exception(
                 "No network"
             )
         }
         var message: String? = null
         try {
-            ComentariosRepositoryImpl(apiHttpService).getPerUser(USER.id.toInt())
+            ComentariosRepositoryImpl(apiHttpService).getPerPost(POSTS.id.toInt())
         } catch (e: Exception) {
             message = e.message
         }
