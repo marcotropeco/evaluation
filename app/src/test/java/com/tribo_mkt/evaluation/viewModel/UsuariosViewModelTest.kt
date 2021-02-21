@@ -58,6 +58,20 @@ class UsuariosViewModelTest {
         confirmVerified(usersLiveDataObserver)
     }
 
+    @Test
+    fun `when get users live data with error`() {
+        val viewModel = instantiateViewModel()
+        coEvery { repository.get() } throws Exception()
+
+        viewModel.getUsers()
+
+        coVerifyOrder {
+            repository.get()
+        }
+        confirmVerified(repository)
+    }
+
+
     private fun instantiateViewModel(): UsuariosViewModel {
         val viewModel = UsuariosViewModel(repository)
         viewModel.usersData.observeForever(usersLiveDataObserver)
