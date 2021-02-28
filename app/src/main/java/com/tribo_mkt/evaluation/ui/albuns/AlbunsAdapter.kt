@@ -1,15 +1,16 @@
 package com.tribo_mkt.evaluation.ui.albuns
 
 import android.app.Activity
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
 import com.tribo_mkt.evaluation.model.AlbumResposta
-import com.tribo_mkt.evaluation.ui.fotos.FotosActivity
 
 class AlbunsAdapter(
         val activity: Activity,
@@ -28,10 +29,10 @@ class AlbunsAdapter(
         val view = holder as ViewHolder
         view.album.text = items[position].titulo
         view.fundo.setOnClickListener {
-            val intent = Intent(activity, FotosActivity::class.java)
-            intent.putExtra("albumId", items[position].id)
-            intent.putExtra("usuarioNome", usuarioNome)
-            activity.startActivity(intent)
+            val bundle = bundleOf("albumId" to items[position].id, "usuarioNome" to usuarioNome)
+            val navController: NavController =
+                Navigation.findNavController(activity, R.id.nav_host_fragment)
+            navController.navigate(R.id.action_albunsFragment_to_fotosFragment, bundle)
         }
     }
 

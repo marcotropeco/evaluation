@@ -1,47 +1,23 @@
 package com.tribo_mkt.evaluation.ui.inicio
 
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.tribo_mkt.evaluation.R
-import com.tribo_mkt.evaluation.viewmodel.UsuariosViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class InicioActivity : AppCompatActivity() {
 
-    private val viewModel: UsuariosViewModel by viewModel()
-
+    private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inicio)
-        supportActionBar!!.title = getString(R.string.message_users_prefix)
-        setUpUsersList()
+        navController = this.findNavController(R.id.nav_host_fragment)
+        NavigationUI.setupActionBarWithNavController(this, navController)
     }
 
-    private fun setUpUsersList() {
-        viewModel.usersData.observe(this, Observer {
-            it?.let { usuarios ->
-                val userList = usuarios.toMutableList()
-                userList.sortWith(Comparator { s1, s2 -> s1.nome.compareTo(s2.nome) })
-                val lista = findViewById<RecyclerView>(R.id.lista)!!
-                val adapter = UsuarioAdapter(this, userList)
-                lista.layoutManager = LinearLayoutManager(this)
-                lista.adapter = adapter
-                findViewById<View>(R.id.loading)!!.visibility = View.GONE
-            }
-        })
-        viewModel.error.observe(this, Observer {
-            it?.let { errors ->
-                if (errors) {
-                    findViewById<View>(R.id.loading)!!.visibility = View.GONE
-                    Toast.makeText(this, getString(R.string.message_error_load), Toast.LENGTH_LONG).show()
-                }
-            }
-        })
-        viewModel.getUsers()
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp()
     }
 }

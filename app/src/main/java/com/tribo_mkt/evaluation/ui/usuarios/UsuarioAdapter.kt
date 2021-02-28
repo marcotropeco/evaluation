@@ -1,24 +1,26 @@
-package com.tribo_mkt.evaluation.ui.inicio
+package com.tribo_mkt.evaluation.ui.usuarios
 
 import android.app.Activity
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
 import com.tribo_mkt.evaluation.model.UsuarioResposta
-import com.tribo_mkt.evaluation.ui.albuns.AlbunsActivity
-import com.tribo_mkt.evaluation.ui.postagens.PostagensActivity
 
 class UsuarioAdapter(
-        val activity: Activity,
-        var items: List<UsuarioResposta>
+    val activity: Activity,
+    var items: List<UsuarioResposta>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.usuario_view, parent, false))
+        return ViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.usuario_view, parent, false)
+        )
     }
 
     override fun getItemCount(): Int {
@@ -36,16 +38,22 @@ class UsuarioAdapter(
             view.fundo.setBackgroundColor(ContextCompat.getColor(activity, R.color.fundo))
         }
         view.albunsBotao.setOnClickListener {
-            val intent = Intent(activity, AlbunsActivity::class.java)
-            intent.putExtra("usuarioId", items[position].id)
-            intent.putExtra("usuarioNome", items[position].usuarioNome)
-            activity.startActivity(intent)
+            val bundle = bundleOf(
+                "usuarioId" to items[position].id,
+                "usuarioNome" to items[position].usuarioNome
+            )
+            val navController: NavController =
+                Navigation.findNavController(activity, R.id.nav_host_fragment)
+            navController.navigate(R.id.action_usuarioFragment_to_albunsFragment, bundle)
         }
         view.postagensBotao.setOnClickListener {
-            val intent = Intent(activity, PostagensActivity::class.java)
-            intent.putExtra("usuarioId", items[position].id)
-            intent.putExtra("usuarioNome", items[position].usuarioNome)
-            activity.startActivity(intent)
+            val bundle = bundleOf(
+                "usuarioId" to items[position].id,
+                "usuarioNome" to items[position].usuarioNome
+            )
+            val navController: NavController =
+                Navigation.findNavController(activity, R.id.nav_host_fragment)
+            navController.navigate(R.id.action_usuarioFragment_to_postagemFragment, bundle)
         }
     }
 

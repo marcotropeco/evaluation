@@ -8,4 +8,6 @@
     <string name="message_users_prefix">Usuários</string>
     <string name="message_posts_prefix">"Postagens de "</string>
     <string name="message_num_comments_prefix">"Número de comentários: "</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

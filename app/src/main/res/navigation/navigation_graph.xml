@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/usuarioFragment">
+
+    <fragment
+        android:id="@+id/usuarioFragment"
+        android:name="com.tribo_mkt.evaluation.ui.usuarios.UsuarioFragment"
+        tools:layout="@layout/fragment_usuario" >
+        <action
+            android:id="@+id/action_usuarioFragment_to_albunsFragment"
+            app:destination="@id/albunsFragment" />
+        <action
+            android:id="@+id/action_usuarioFragment_to_postagemFragment"
+            app:destination="@id/postagemFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albunsFragment"
+        android:name="com.tribo_mkt.evaluation.ui.albuns.AlbunsFragment"
+        tools:layout="@layout/fragment_albuns" >
+        <argument
+            android:name="usuarioId"
+            app:argType="string" />
+        <argument
+            android:name="usuarioNome"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_albunsFragment_to_fotosFragment"
+            app:destination="@id/fotosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fotosFragment"
+        android:name="com.tribo_mkt.evaluation.ui.fotos.FotosFragment"
+        tools:layout="@layout/fragment_fotos">
+        <argument
+            android:name="albumId"
+            app:argType="string" />
+        <argument
+            android:name="usuarioNome"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_fotosFragment_to_fotoDetalheFragment"
+            app:destination="@id/fotoDetalheFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fotoDetalheFragment"
+        android:name="com.tribo_mkt.evaluation.ui.foto_detalhe.FotoDetalheFragment"
+        tools:layout="@layout/fragment_foto_detalhe">
+        <argument
+            android:name="fotoUrl"
+            app:argType="string" />
+        <argument
+            android:name="fotoNome"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/postagemFragment"
+        android:name="com.tribo_mkt.evaluation.ui.postagens.PostagemFragment"
+        tools:layout="@layout/fragment_postagem">
+        <action
+            android:id="@+id/action_postagemFragment_to_comentariosFragment"
+            app:destination="@id/comentariosFragment" />
+        <argument
+            android:name="usuarioId"
+            app:argType="string" />
+        <argument
+            android:name="usuarioNome"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/comentariosFragment"
+        android:name="com.tribo_mkt.evaluation.ui.comentarios.ComentariosFragment"
+        tools:layout="@layout/fragment_comentarios">
+        <argument
+            android:name="postagemId"
+            app:argType="string" />
+        <argument
+            android:name="usuarioNome"
+            app:argType="string" />
+    </fragment>
+</navigation>
