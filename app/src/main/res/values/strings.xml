@@ -10,4 +10,11 @@
     <string name="message_num_comments_prefix">"Número de comentários: "</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="user_view_phone">Telefone</string>
+    <string name="user_view_album">Albuns</string>
+    <string name="user_view_posts">Postagens</string>
+    <string name="user_view_letter">A</string>
+    <string name="user_view_name">Nome</string>
+    <string name="user_view_email">Email</string>
+    <string name="user_view_username">UsuarioNome</string>
 </resources>
