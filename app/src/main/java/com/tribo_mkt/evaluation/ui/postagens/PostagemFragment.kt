@@ -24,11 +24,11 @@ class PostagemFragment : Fragment() {
     private val comentariosViewModel: ComentariosViewModel by viewModel()
     private val postagensViewModel: PostagensViewModel by viewModel()
 
-    var postagens: Resposta? = null
-    var comentarios: Resposta? = null
+    var postagens: Resposta<PostagemResposta>? = null
+    var comentarios: Resposta<ComentarioResposta>? = null
     lateinit var usuarioNome: String
 
-    data class Resposta(val lista: List<Any>?)
+    data class Resposta<T>(val lista: List<T>?)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +57,7 @@ class PostagemFragment : Fragment() {
         comentariosViewModel.comentariosData.observe(viewLifecycleOwner, Observer {
             it?.let { comments ->
                 val commentsList = comments.toList()
-                finalizar(null, PostagemFragment.Resposta(commentsList))
+                finalizar(null, Resposta(commentsList))
             }
         })
         comentariosViewModel.error.observe(viewLifecycleOwner, Observer {
@@ -74,7 +74,7 @@ class PostagemFragment : Fragment() {
         postagensViewModel.postagemData.observe(viewLifecycleOwner, Observer {
             it?.let { posts ->
                 val postsList = posts.toList()
-                finalizar(PostagemFragment.Resposta(postsList), null)
+                finalizar(Resposta(postsList), null)
             }
         })
         postagensViewModel.error.observe(viewLifecycleOwner, Observer {
@@ -87,7 +87,11 @@ class PostagemFragment : Fragment() {
         postagensViewModel.getPostsPerUser(userId.toInt())
     }
 
-    fun finalizar(postagens: PostagemFragment.Resposta?, comentarios: PostagemFragment.Resposta?) {
+    fun finalizar(
+        postagens: Resposta<PostagemResposta>?,
+        comentarios: Resposta<ComentarioResposta>?
+    ) {
+
 
         if (postagens != null) {
             this.postagens = postagens
@@ -103,10 +107,10 @@ class PostagemFragment : Fragment() {
             val comentariosLista = this.comentarios!!.lista
 
             if (postagensLista != null) {
-                (postagensLista as List<PostagemResposta>).forEach {
+                postagensLista.forEach {
                     if (comentariosLista != null) {
                         it.comentarios =
-                            (comentariosLista as List<ComentarioResposta>).filter { comment -> comment.postagemId == it.id }.size
+                            comentariosLista.filter { comment -> comment.postagemId == it.id }.size
                     }
                 }
 
