@@ -21,4 +21,6 @@
     <string name="post_view_letter_A">A</string>
     <string name="album_view_letter_A">A</string>
     <string name="comment_view_letter_A">A</string>
+    <string name="foto_detalhe_txt_letter_A">A</string>
+    <string name="foto_detalhe_image_detail">image_detail</string>
 </resources>
