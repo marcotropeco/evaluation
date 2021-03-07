@@ -19,4 +19,6 @@
     <string name="user_view_username">UsuarioNome</string>
     <string name="photo_view_txt_nome">Nome da foto</string>
     <string name="post_view_letter_A">A</string>
+    <string name="album_view_letter_A">A</string>
+    <string name="comment_view_letter_A">A</string>
 </resources>
