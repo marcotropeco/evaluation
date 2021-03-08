@@ -5,8 +5,8 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 30
 
-    viewBinding {
-        enabled = true
+    buildFeatures{
+        viewBinding = true // for view binding
     }
 
     defaultConfig {
