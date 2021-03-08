@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
+import com.tribo_mkt.evaluation.util.Message
 import com.tribo_mkt.evaluation.viewmodel.UsuariosViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -52,11 +53,7 @@ class UsuarioFragment : Fragment() {
             it?.let { errors ->
                 if (errors) {
                     view?.findViewById<View>(R.id.loading)!!.visibility = View.GONE
-                    Toast.makeText(
-                        context,
-                        getString(R.string.message_error_load),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Message.showMessage(context, getString(R.string.message_error_load))
                 }
             }
         })

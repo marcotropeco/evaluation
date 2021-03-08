@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
 import com.tribo_mkt.evaluation.model.ComentarioResposta
 import com.tribo_mkt.evaluation.model.PostagemResposta
+import com.tribo_mkt.evaluation.util.Message
 import com.tribo_mkt.evaluation.viewmodel.ComentariosViewModel
 import com.tribo_mkt.evaluation.viewmodel.PostagensViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -121,8 +122,7 @@ class PostagemFragment : Fragment() {
                 view?.findViewById<View>(R.id.loading)!!.visibility = View.GONE
             } else {
                 view?.findViewById<View>(R.id.loading)!!.visibility = View.GONE
-                Toast.makeText(context, getString(R.string.message_error_load), Toast.LENGTH_LONG)
-                    .show()
+                Message.showMessage(context, getString(R.string.message_error_load))
             }
         }
     }
