@@ -5,24 +5,27 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
+import com.tribo_mkt.evaluation.databinding.FragmentComentariosBinding
 import com.tribo_mkt.evaluation.util.Message
 import com.tribo_mkt.evaluation.viewmodel.ComentariosViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ComentariosFragment : Fragment() {
+
+    private lateinit var bindingComentarios: FragmentComentariosBinding
     private val comentariosViewModel: ComentariosViewModel by viewModel()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_comentarios, container, false)
+    ): View {
+        bindingComentarios = FragmentComentariosBinding.inflate(inflater, container, false)
+        return bindingComentarios.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,17 +47,17 @@ class ComentariosFragment : Fragment() {
         comentariosViewModel.comentariosPostData.observe(viewLifecycleOwner, Observer {
             it?.let { comments ->
                 val todosComentarios = comments.toList()
-                val lista = view?.findViewById<RecyclerView>(R.id.lista)!!
+                val lista = bindingComentarios.lista
                 val adapter = ComentariosAdapter(todosComentarios)
                 lista.layoutManager = LinearLayoutManager(context)
                 lista.adapter = adapter
-                view?.findViewById<View>(R.id.loading)!!.visibility = View.GONE
+                bindingComentarios.loading.visibility = View.GONE
             }
         })
         comentariosViewModel.error.observe(viewLifecycleOwner, Observer {
             it?.let { errors ->
                 if (errors) {
-                    view?.findViewById<View>(R.id.loading)!!.visibility = View.GONE
+                    bindingComentarios.loading.visibility = View.GONE
                     Message.showMessage(context, getString(R.string.message_error_load))
                 }
             }

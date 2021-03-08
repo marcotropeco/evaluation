@@ -5,25 +5,26 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
+import com.tribo_mkt.evaluation.databinding.FragmentAlbunsBinding
 import com.tribo_mkt.evaluation.util.Message
 import com.tribo_mkt.evaluation.viewmodel.AlbunsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AlbunsFragment : Fragment() {
+    private lateinit var bindingAlbuns: FragmentAlbunsBinding
     private val viewModel: AlbunsViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_albuns, container, false)
+    ): View {
+        bindingAlbuns = FragmentAlbunsBinding.inflate(inflater, container, false)
+        return bindingAlbuns.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,17 +46,17 @@ class AlbunsFragment : Fragment() {
         viewModel.albunsData.observe(viewLifecycleOwner, Observer {
             it?.let { todosAlbuns ->
                 val albunsList = todosAlbuns.toList()
-                val lista = view?.findViewById<RecyclerView>(R.id.lista)!!
+                val lista = bindingAlbuns.lista
                 val adapter = activity?.let { it1 -> AlbunsAdapter(it1, albunsList, userName) }
                 lista.layoutManager = LinearLayoutManager(context)
                 lista.adapter = adapter
-                view?.findViewById<View>(R.id.loading)!!.visibility = View.GONE
+                bindingAlbuns.loading.visibility = View.GONE
             }
         })
         viewModel.error.observe(viewLifecycleOwner, Observer {
             it?.let { errors ->
                 if (errors) {
-                    view?.findViewById<View>(R.id.loading)!!.visibility = View.GONE
+                    bindingAlbuns.loading.visibility = View.GONE
                     Message.showMessage(context, getString(R.string.message_error_load))
                 }
             }

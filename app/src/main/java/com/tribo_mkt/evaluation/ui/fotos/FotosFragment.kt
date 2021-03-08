@@ -5,25 +5,27 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
+import com.tribo_mkt.evaluation.databinding.FragmentFotosBinding
 import com.tribo_mkt.evaluation.util.Message
 import com.tribo_mkt.evaluation.viewmodel.FotosViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FotosFragment : Fragment() {
 
+    private lateinit var bindingFotos: FragmentFotosBinding
     private val viewModel: FotosViewModel by viewModel()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_fotos, container, false)
+    ): View {
+        bindingFotos = FragmentFotosBinding.inflate(inflater, container, false)
+        return bindingFotos.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,17 +47,17 @@ class FotosFragment : Fragment() {
         viewModel.fotosData.observe(viewLifecycleOwner, Observer {
             it?.let { photos ->
                 val todasAsFotos = photos.toList()
-                val lista = view?.findViewById<RecyclerView>(R.id.lista)!!
+                val lista = bindingFotos.lista
                 val adapter = activity?.let { it1 -> FotosAdapter(it1, todasAsFotos) }
                 lista.layoutManager = LinearLayoutManager(context)
                 lista.adapter = adapter
-                view?.findViewById<View>(R.id.loading)!!.visibility = View.GONE
+                bindingFotos.loading.visibility = View.GONE
             }
         })
         viewModel.error.observe(viewLifecycleOwner, Observer {
             it?.let { errors ->
                 if (errors) {
-                    view?.findViewById<View>(R.id.loading)!!.visibility = View.GONE
+                    bindingFotos.loading.visibility = View.GONE
                     Message.showMessage(context, getString(R.string.message_error_load))
                 }
             }

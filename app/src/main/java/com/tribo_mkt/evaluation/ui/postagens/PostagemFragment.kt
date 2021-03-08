@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
+import com.tribo_mkt.evaluation.databinding.FragmentPostagemBinding
 import com.tribo_mkt.evaluation.model.ComentarioResposta
 import com.tribo_mkt.evaluation.model.PostagemResposta
 import com.tribo_mkt.evaluation.util.Message
@@ -22,6 +21,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PostagemFragment : Fragment() {
 
+    private lateinit var bindingPostagens: FragmentPostagemBinding
     private val comentariosViewModel: ComentariosViewModel by viewModel()
     private val postagensViewModel: PostagensViewModel by viewModel()
 
@@ -34,8 +34,9 @@ class PostagemFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_postagem, container, false)
+    ): View {
+        bindingPostagens = FragmentPostagemBinding.inflate(inflater, container, false)
+        return bindingPostagens.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -115,13 +116,13 @@ class PostagemFragment : Fragment() {
                     }
                 }
 
-                val lista = view?.findViewById<RecyclerView>(R.id.lista)!!
+                val lista = bindingPostagens.lista
                 val adapter = activity?.let { PostagensAdapter(it, postagensLista, usuarioNome) }
                 lista.layoutManager = LinearLayoutManager(context)
                 lista.adapter = adapter
-                view?.findViewById<View>(R.id.loading)!!.visibility = View.GONE
+                bindingPostagens.loading.visibility = View.GONE
             } else {
-                view?.findViewById<View>(R.id.loading)!!.visibility = View.GONE
+                bindingPostagens.loading.visibility = View.GONE
                 Message.showMessage(context, getString(R.string.message_error_load))
             }
         }

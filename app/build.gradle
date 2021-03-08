@@ -5,6 +5,10 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 30
 
+    viewBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.tribo_mkt.evaluation"
         minSdkVersion 21
