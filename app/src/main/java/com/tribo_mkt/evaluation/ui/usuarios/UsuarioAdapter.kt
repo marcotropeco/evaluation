@@ -2,25 +2,26 @@ package com.tribo_mkt.evaluation.ui.usuarios
 
 import android.app.Activity
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
+import com.tribo_mkt.evaluation.databinding.UsuarioViewBinding
 import com.tribo_mkt.evaluation.model.UsuarioResposta
 
 class UsuarioAdapter(
     val activity: Activity,
     var items: List<UsuarioResposta>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.usuario_view, parent, false)
-        )
+        val bindingViewUsers =
+            UsuarioViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return ViewHolder(bindingViewUsers)
     }
 
     override fun getItemCount(): Int {
@@ -28,6 +29,7 @@ class UsuarioAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
         val view = holder as ViewHolder
         view.nome.text = items[position].nome
         view.usuarioNome.text = items[position].usuarioNome
@@ -57,14 +59,14 @@ class UsuarioAdapter(
         }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nome = itemView.findViewById<TextView>(R.id.nome)!!
-        val usuarioNome = itemView.findViewById<TextView>(R.id.usuarioNome)!!
-        val telefone = itemView.findViewById<TextView>(R.id.telefone)!!
-        val email = itemView.findViewById<TextView>(R.id.email)!!
-        val fundo = itemView.findViewById<View>(R.id.fundo)!!
-        val letra = itemView.findViewById<TextView>(R.id.letra)!!
-        val albunsBotao = itemView.findViewById<TextView>(R.id.albunsBotao)!!
-        val postagensBotao = itemView.findViewById<TextView>(R.id.postagensBotao)!!
+    class ViewHolder(binding: UsuarioViewBinding) : RecyclerView.ViewHolder(binding.root) {
+        val nome = binding.nome
+        val usuarioNome = binding.usuarioNome
+        val telefone = binding.telefone
+        val email = binding.email
+        val fundo = binding.fundo
+        val letra = binding.letra
+        val albunsBotao = binding.albunsBotao
+        val postagensBotao = binding.postagensBotao
     }
 }

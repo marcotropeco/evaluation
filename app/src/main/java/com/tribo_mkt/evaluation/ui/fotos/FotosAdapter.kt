@@ -2,16 +2,14 @@ package com.tribo_mkt.evaluation.ui.fotos
 
 import android.app.Activity
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.tribo_mkt.evaluation.R
+import com.tribo_mkt.evaluation.databinding.PhotoViewBinding
 import com.tribo_mkt.evaluation.model.FotoResposta
 
 class FotosAdapter(
@@ -20,9 +18,10 @@ class FotosAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.photo_view, parent, false)
-        )
+        val bindingViewFotos =
+            PhotoViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return ViewHolder(bindingViewFotos)
     }
 
     override fun getItemCount(): Int {
@@ -42,9 +41,9 @@ class FotosAdapter(
         Picasso.get().load(items[position].thumbnailUrl).into(view.thumb)
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val fundo = itemView.findViewById<View>(R.id.fundo)!!
-        val thumb = itemView.findViewById<ImageView>(R.id.thumb)!!
-        val titulo = itemView.findViewById<TextView>(R.id.titulo)!!
+    class ViewHolder(binding: PhotoViewBinding) : RecyclerView.ViewHolder(binding.root) {
+        val fundo = binding.fundo
+        val thumb = binding.thumb
+        val titulo = binding.titulo
     }
 }

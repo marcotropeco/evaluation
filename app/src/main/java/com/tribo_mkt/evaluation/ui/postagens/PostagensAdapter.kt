@@ -4,12 +4,12 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
+import com.tribo_mkt.evaluation.databinding.PostViewBinding
 import com.tribo_mkt.evaluation.model.PostagemResposta
 
 class PostagensAdapter(
@@ -18,9 +18,10 @@ class PostagensAdapter(
     var usuarioNome: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.post_view, parent, false)
-        )
+        val bindingViewPostagens =
+            PostViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return ViewHolder(bindingViewPostagens)
     }
 
     override fun getItemCount(): Int {
@@ -46,9 +47,9 @@ class PostagensAdapter(
         }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val fundo = itemView.findViewById<View>(R.id.fundo)!!
-        val titulo = itemView.findViewById<TextView>(R.id.titulo)!!
-        val comentarios = itemView.findViewById<TextView>(R.id.comentarios)!!
+    class ViewHolder(binding: PostViewBinding) : RecyclerView.ViewHolder(binding.root) {
+        val fundo = binding.fundo
+        val titulo = binding.titulo
+        val comentarios = binding.comentarios
     }
 }

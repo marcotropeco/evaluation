@@ -2,23 +2,25 @@ package com.tribo_mkt.evaluation.ui.albuns
 
 import android.app.Activity
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.R
+import com.tribo_mkt.evaluation.databinding.AlbumViewBinding
 import com.tribo_mkt.evaluation.model.AlbumResposta
 
 class AlbunsAdapter(
-        val activity: Activity,
-        var items: List<AlbumResposta>,
-        val usuarioNome: String
+    val activity: Activity,
+    var items: List<AlbumResposta>,
+    val usuarioNome: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.album_view, parent, false))
+        val bindingViewAlbuns =
+            AlbumViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return ViewHolder(bindingViewAlbuns)
     }
 
     override fun getItemCount(): Int {
@@ -36,8 +38,8 @@ class AlbunsAdapter(
         }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val album = itemView.findViewById<TextView>(R.id.album)!!
-        val fundo = itemView.findViewById<View>(R.id.fundo)!!
+    class ViewHolder(binding: AlbumViewBinding) : RecyclerView.ViewHolder(binding.root) {
+        val album = binding.album
+        val fundo = binding.fundo
     }
 }

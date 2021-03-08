@@ -1,18 +1,19 @@
 package com.tribo_mkt.evaluation.ui.comentarios
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.tribo_mkt.evaluation.R
+import com.tribo_mkt.evaluation.databinding.CommentViewBinding
 import com.tribo_mkt.evaluation.model.ComentarioResposta
 
 class ComentariosAdapter(
-        var items: List<ComentarioResposta>
+    var items: List<ComentarioResposta>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.comment_view, parent, false))
+        val bindingViewComentarios =
+            CommentViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return ViewHolder(bindingViewComentarios)
     }
 
     override fun getItemCount(): Int {
@@ -25,8 +26,8 @@ class ComentariosAdapter(
         view.comentario.text = items[position].conteudo
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titulo = itemView.findViewById<TextView>(R.id.titulo)!!
-        val comentario = itemView.findViewById<TextView>(R.id.comentario)!!
+    class ViewHolder(binding: CommentViewBinding) : RecyclerView.ViewHolder(binding.root) {
+        val titulo = binding.titulo
+        val comentario = binding.comentario
     }
 }
