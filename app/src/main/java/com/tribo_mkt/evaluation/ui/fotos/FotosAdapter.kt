@@ -30,15 +30,16 @@ class FotosAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val view = holder as ViewHolder
-        view.titulo.text = items[position].titulo
+        val fotoResposta: FotoResposta = items[position]
+        view.titulo.text = fotoResposta.titulo
         view.fundo.setOnClickListener {
             val bundle =
-                bundleOf("fotoUrl" to items[position].url, "fotoNome" to items[position].titulo)
+                bundleOf("fotoUrl" to fotoResposta.url, "fotoNome" to fotoResposta.titulo)
             val navController: NavController =
                 Navigation.findNavController(activity, R.id.nav_host_fragment)
             navController.navigate(R.id.action_fotosFragment_to_fotoDetalheFragment, bundle)
         }
-        Picasso.get().load(items[position].thumbnailUrl).into(view.thumb)
+        Picasso.get().load(fotoResposta.thumbnailUrl).into(view.thumb)
     }
 
     class ViewHolder(binding: PhotoViewBinding) : RecyclerView.ViewHolder(binding.root) {

@@ -29,9 +29,10 @@ class AlbunsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val view = holder as ViewHolder
-        view.album.text = items[position].titulo
+        val albumResposta: AlbumResposta = items[position]
+        view.album.text = albumResposta.titulo
         view.fundo.setOnClickListener {
-            val bundle = bundleOf("albumId" to items[position].id, "usuarioNome" to usuarioNome)
+            val bundle = bundleOf("albumId" to albumResposta.id, "usuarioNome" to usuarioNome)
             val navController: NavController =
                 Navigation.findNavController(activity, R.id.nav_host_fragment)
             navController.navigate(R.id.action_albunsFragment_to_fotosFragment, bundle)

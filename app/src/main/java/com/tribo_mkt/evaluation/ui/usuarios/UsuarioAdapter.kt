@@ -31,28 +31,30 @@ class UsuarioAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val view = holder as ViewHolder
-        view.nome.text = items[position].nome
-        view.usuarioNome.text = items[position].usuarioNome
-        view.telefone.text = items[position].telefone
-        view.email.text = items[position].email
-        view.letra.text = items[position].nome.substring(0, 2).toUpperCase()
+        val usuarioResposta: UsuarioResposta = items[position]
+        view.nome.text = usuarioResposta.nome
+        view.usuarioNome.text = usuarioResposta.usuarioNome
+        view.telefone.text = usuarioResposta.telefone
+        view.email.text = usuarioResposta.email
+        view.letra.text = usuarioResposta.nome.substring(0, 2).toUpperCase()
         if ((position - 1) % 2 == 0) {
             view.fundo.setBackgroundColor(ContextCompat.getColor(activity, R.color.fundo))
         }
         view.albunsBotao.setOnClickListener {
-            navigateListener(items[position], R.id.action_usuarioFragment_to_albunsFragment)
+            navigateListener(usuarioResposta, R.id.action_usuarioFragment_to_albunsFragment)
         }
         view.postagensBotao.setOnClickListener {
-            navigateListener(items[position], R.id.action_usuarioFragment_to_postagemFragment)
+            navigateListener(usuarioResposta, R.id.action_usuarioFragment_to_postagemFragment)
         }
     }
 
-    private fun navigateListener(item : UsuarioResposta, action: Int) {
+    private fun navigateListener(usuarioResposta: UsuarioResposta, action: Int) {
         val bundle = bundleOf(
-            "usuarioId" to item.id,
-            "usuarioNome" to item.usuarioNome
+            "usuarioId" to usuarioResposta.id,
+            "usuarioNome" to usuarioResposta.usuarioNome
         )
-        val navController: NavController = Navigation.findNavController(activity, R.id.nav_host_fragment)
+        val navController: NavController =
+            Navigation.findNavController(activity, R.id.nav_host_fragment)
         navController.navigate(action, bundle)
     }
 

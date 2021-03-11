@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tribo_mkt.evaluation.databinding.CommentViewBinding
 import com.tribo_mkt.evaluation.model.ComentarioResposta
+import com.tribo_mkt.evaluation.model.FotoResposta
 
 class ComentariosAdapter(
     var items: List<ComentarioResposta>
@@ -22,8 +23,9 @@ class ComentariosAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val view = holder as ViewHolder
-        view.titulo.text = items[position].nome
-        view.comentario.text = items[position].conteudo
+        val comentarioResposta: ComentarioResposta = items[position]
+        view.titulo.text = comentarioResposta.nome
+        view.comentario.text = comentarioResposta.conteudo
     }
 
     class ViewHolder(binding: CommentViewBinding) : RecyclerView.ViewHolder(binding.root) {

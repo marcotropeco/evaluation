@@ -30,19 +30,20 @@ class PostagensAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val view = holder as ViewHolder
-        view.titulo.text = items[position].titulo
+        val postagemResposta: PostagemResposta = items[position];
+        view.titulo.text = postagemResposta.titulo
         view.fundo.setOnClickListener {
             val bundle = bundleOf(
-                "postagemId" to items[position].id,
+                "postagemId" to postagemResposta.id,
                 "usuarioNome" to usuarioNome
             )
-            val navController: NavController =
-                Navigation.findNavController(activity, R.id.nav_host_fragment)
+            val navController: NavController = Navigation.findNavController(activity, R.id.nav_host_fragment)
             navController.navigate(R.id.action_postagemFragment_to_comentariosFragment, bundle)
         }
-        view.comentarios.text =
-            activity.getString(R.string.message_num_comments_prefix) + items[position].comentarios.toString()
-        if (items[position].comentarios == null) {
+        val textPostagem = activity.getString(R.string.message_num_comments_prefix) + postagemResposta.comentarios.toString()
+        view.comentarios.text = textPostagem
+
+        if (postagemResposta.comentarios == null) {
             view.comentarios.visibility = View.GONE
         }
     }
