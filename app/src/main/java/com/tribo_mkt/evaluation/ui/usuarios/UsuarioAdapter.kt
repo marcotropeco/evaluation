@@ -40,23 +40,20 @@ class UsuarioAdapter(
             view.fundo.setBackgroundColor(ContextCompat.getColor(activity, R.color.fundo))
         }
         view.albunsBotao.setOnClickListener {
-            val bundle = bundleOf(
-                "usuarioId" to items[position].id,
-                "usuarioNome" to items[position].usuarioNome
-            )
-            val navController: NavController =
-                Navigation.findNavController(activity, R.id.nav_host_fragment)
-            navController.navigate(R.id.action_usuarioFragment_to_albunsFragment, bundle)
+            navigateListener(items[position], R.id.action_usuarioFragment_to_albunsFragment)
         }
         view.postagensBotao.setOnClickListener {
-            val bundle = bundleOf(
-                "usuarioId" to items[position].id,
-                "usuarioNome" to items[position].usuarioNome
-            )
-            val navController: NavController =
-                Navigation.findNavController(activity, R.id.nav_host_fragment)
-            navController.navigate(R.id.action_usuarioFragment_to_postagemFragment, bundle)
+            navigateListener(items[position], R.id.action_usuarioFragment_to_postagemFragment)
         }
+    }
+
+    private fun navigateListener(item : UsuarioResposta, action: Int) {
+        val bundle = bundleOf(
+            "usuarioId" to item.id,
+            "usuarioNome" to item.usuarioNome
+        )
+        val navController: NavController = Navigation.findNavController(activity, R.id.nav_host_fragment)
+        navController.navigate(action, bundle)
     }
 
     class ViewHolder(binding: UsuarioViewBinding) : RecyclerView.ViewHolder(binding.root) {
