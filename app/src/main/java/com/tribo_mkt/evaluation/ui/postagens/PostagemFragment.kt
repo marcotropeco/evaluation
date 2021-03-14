@@ -48,7 +48,6 @@ class PostagemFragment : Fragment() {
             usuarioNome = it
         }
 
-
         setActionBar(usuarioNome)
         setUpPostsUserList(usuarioId)
         setUpComentsUserList(usuarioId)
