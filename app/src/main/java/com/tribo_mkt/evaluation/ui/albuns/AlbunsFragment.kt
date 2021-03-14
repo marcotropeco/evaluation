@@ -29,8 +29,15 @@ class AlbunsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val usuarioId = arguments?.getString("usuarioId")!!
-        val usuarioNome = arguments?.getString("usuarioNome")!!
+        lateinit var usuarioId: String
+        lateinit var usuarioNome: String
+
+        arguments?.getString("usuarioId")?.let {
+            usuarioId = it
+        }
+        arguments?.getString("usuarioNome")?.let {
+            usuarioNome = it
+        }
         setActionBar(usuarioNome)
         setUpAlbunsUserList(usuarioId, usuarioNome)
     }

@@ -30,8 +30,16 @@ class FotosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val albumId = arguments?.getString("albumId")!!
-        val usuarioNome = arguments?.getString("usuarioNome")!!
+        lateinit var albumId: String
+        lateinit var usuarioNome: String
+
+        arguments?.getString("albumId")?.let {
+            albumId = it
+        }
+        arguments?.getString("usuarioNome")?.let {
+            usuarioNome = it
+        }
+
         setActionBar(usuarioNome)
         setUpPhotosList(albumId)
     }

@@ -13,7 +13,6 @@ import com.tribo_mkt.evaluation.R
 import com.tribo_mkt.evaluation.databinding.FragmentPostagemBinding
 import com.tribo_mkt.evaluation.model.ComentarioResposta
 import com.tribo_mkt.evaluation.model.PostagemResposta
-import com.tribo_mkt.evaluation.util.Message
 import com.tribo_mkt.evaluation.viewmodel.ComentariosViewModel
 import com.tribo_mkt.evaluation.viewmodel.PostagensViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,10 +23,9 @@ class PostagemFragment : Fragment() {
     private lateinit var bindingPostagens: FragmentPostagemBinding
     private val comentariosViewModel: ComentariosViewModel by viewModel()
     private val postagensViewModel: PostagensViewModel by viewModel()
-
-    var postagens: Resposta<PostagemResposta>? = null
-    var comentarios: Resposta<ComentarioResposta>? = null
-    lateinit var usuarioNome: String
+    private var postagensLista: List<PostagemResposta> = listOfNotNull()
+    private var comentariosLista: List<ComentarioResposta> = listOfNotNull()
+    private lateinit var usuarioNome: String
 
     data class Resposta<T>(val lista: List<T>?)
 
@@ -41,8 +39,16 @@ class PostagemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val usuarioId = arguments?.getString("usuarioId")!!
-        usuarioNome = arguments?.getString("usuarioNome")!!
+        lateinit var usuarioId: String
+
+        arguments?.getString("usuarioId")?.let {
+            usuarioId = it
+        }
+        arguments?.getString("usuarioNome")?.let {
+            usuarioNome = it
+        }
+
+
         setActionBar(usuarioNome)
         setUpPostsUserList(usuarioId)
         setUpComentsUserList(usuarioId)
@@ -94,37 +100,29 @@ class PostagemFragment : Fragment() {
         comentarios: Resposta<ComentarioResposta>?
     ) {
 
-
-        if (postagens != null) {
-            this.postagens = postagens
-        }
-
-        if (comentarios != null) {
-            this.comentarios = comentarios
-        }
-
-        if (this.postagens != null && this.comentarios != null) {
-
-            val postagensLista = this.postagens!!.lista
-            val comentariosLista = this.comentarios!!.lista
-
-            if (postagensLista != null) {
-                postagensLista.forEach {
-                    if (comentariosLista != null) {
-                        it.comentarios =
-                            comentariosLista.filter { comment -> comment.postagemId == it.id }.size
-                    }
-                }
-
-                val lista = bindingPostagens.lista
-                val adapter = activity?.let { PostagensAdapter(it, postagensLista, usuarioNome) }
-                lista.layoutManager = LinearLayoutManager(context)
-                lista.adapter = adapter
-                bindingPostagens.loading.visibility = View.GONE
-            } else {
-                bindingPostagens.loading.visibility = View.GONE
-                Message.showMessage(context, getString(R.string.message_error_load))
+        postagens?.let { posts ->
+            posts.lista?.let {
+                postagensLista = it
             }
+        }
+
+        comentarios?.let { comments ->
+            comments.lista?.let {
+                comentariosLista = it
+            }
+        }
+
+        if (postagensLista.isNotEmpty() && comentariosLista.isNotEmpty()) {
+            postagensLista.forEach {
+                it.comentarios =
+                    comentariosLista.filter { comment -> comment.postagemId == it.id }.size
+            }
+
+            val lista = bindingPostagens.lista
+            val adapter = activity?.let { PostagensAdapter(it, postagensLista, usuarioNome) }
+            lista.layoutManager = LinearLayoutManager(context)
+            lista.adapter = adapter
+            bindingPostagens.loading.visibility = View.GONE
         }
     }
 

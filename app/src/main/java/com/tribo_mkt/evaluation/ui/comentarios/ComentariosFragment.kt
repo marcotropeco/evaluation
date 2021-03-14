@@ -30,8 +30,16 @@ class ComentariosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val postagemId = arguments?.getString("postagemId")!!
-        val usuarioNome = arguments?.getString("usuarioNome")!!
+        lateinit var postagemId: String
+        lateinit var usuarioNome: String
+
+        arguments?.getString("postagemId")?.let {
+            postagemId = it
+        }
+        arguments?.getString("usuarioNome")?.let {
+            usuarioNome = it
+        }
+
         setActionBar(usuarioNome)
         setUpComentsPostList(postagemId)
     }

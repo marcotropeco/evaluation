@@ -23,8 +23,16 @@ class FotoDetalheFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val fotoUrl = arguments?.getString("fotoUrl")!!
-        val fotoNome = arguments?.getString("fotoNome")!!
+        lateinit var fotoUrl: String
+        lateinit var fotoNome: String
+
+        arguments?.getString("fotoUrl")?.let {
+            fotoUrl = it
+        }
+        arguments?.getString("fotoNome")?.let {
+            fotoNome = it
+        }
+
         setActionBar()
         setElements(fotoUrl, fotoNome)
     }
